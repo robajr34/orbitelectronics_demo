@@ -31,20 +31,27 @@ import {
 import { useAdminStore } from "@/lib/adminStore";
 import { ConfirmationModal } from "./ConfirmationModal";
 
-export function AdminSidebar({ isMobileOpen, onMobileClose, isCollapsed, onToggleCollapse }) {
+export function AdminSidebar({
+  isMobileOpen,
+  onMobileClose,
+  isCollapsed,
+  onToggleCollapse,
+}) {
   const pathname = usePathname();
   const [showResetModal, setShowResetModal] = useState(false);
-  const {
-    orders,
-    products,
-    supportTickets,
-    currentRole,
-    resetDemoData,
-  } = useAdminStore();
+  const { orders, products, supportTickets, currentRole, resetDemoData } =
+    useAdminStore();
 
-  const pendingOrdersCount = orders.filter((o) => o.fulfillmentStatus === "Pending" || o.fulfillmentStatus === "Processing").length;
-  const lowStockCount = products.filter((p) => p.stock <= (p.lowStockThreshold || 10)).length;
-  const openTicketsCount = supportTickets.filter((t) => t.status === "Open" || t.status === "In Progress").length;
+  const pendingOrdersCount = orders.filter(
+    (o) =>
+      o.fulfillmentStatus === "Pending" || o.fulfillmentStatus === "Processing",
+  ).length;
+  const lowStockCount = products.filter(
+    (p) => p.stock <= (p.lowStockThreshold || 10),
+  ).length;
+  const openTicketsCount = supportTickets.filter(
+    (t) => t.status === "Open" || t.status === "In Progress",
+  ).length;
 
   const navGroups = [
     {
@@ -57,8 +64,18 @@ export function AdminSidebar({ isMobileOpen, onMobileClose, isCollapsed, onToggl
     {
       group: "Commerce & Sales",
       items: [
-        { label: "Orders Queue", href: "/admin/orders", icon: ShoppingCart, badge: pendingOrdersCount, badgeColor: "bg-warning-soft text-warning" },
-        { label: "Returns & Exchanges", href: "/admin/orders/returns", icon: RotateCcw },
+        {
+          label: "Orders Queue",
+          href: "/admin/orders",
+          icon: ShoppingCart,
+          badge: pendingOrdersCount,
+          badgeColor: "bg-warning-soft text-warning",
+        },
+        {
+          label: "Returns & Exchanges",
+          href: "/admin/orders/returns",
+          icon: RotateCcw,
+        },
         { label: "B2B Leads", href: "/admin/leads", icon: Building2 },
       ],
     },
@@ -66,7 +83,13 @@ export function AdminSidebar({ isMobileOpen, onMobileClose, isCollapsed, onToggl
       group: "Catalog & Stock",
       items: [
         { label: "Products Catalog", href: "/admin/products", icon: Package },
-        { label: "Stock & Alerts", href: "/admin/inventory", icon: Boxes, badge: lowStockCount, badgeColor: "bg-danger-soft text-danger" },
+        {
+          label: "Stock & Alerts",
+          href: "/admin/inventory",
+          icon: Boxes,
+          badge: lowStockCount,
+          badgeColor: "bg-danger-soft text-danger",
+        },
       ],
     },
     {
@@ -78,9 +101,23 @@ export function AdminSidebar({ isMobileOpen, onMobileClose, isCollapsed, onToggl
     {
       group: "Support & Services",
       items: [
-        { label: "Helpdesk Tickets", href: "/admin/support", icon: Headphones, badge: openTicketsCount, badgeColor: "bg-primary-soft text-primary" },
-        { label: "Warranty Registry", href: "/admin/support/warranties", icon: ShieldCheck },
-        { label: "Repairs & Service", href: "/admin/support/repairs", icon: Wrench },
+        {
+          label: "Helpdesk Tickets",
+          href: "/admin/support",
+          icon: Headphones,
+          badge: openTicketsCount,
+          badgeColor: "bg-primary-soft text-primary",
+        },
+        {
+          label: "Warranty Registry",
+          href: "/admin/support/warranties",
+          icon: ShieldCheck,
+        },
+        {
+          label: "Repairs & Service",
+          href: "/admin/support/repairs",
+          icon: Wrench,
+        },
         { label: "Knowledge Base", href: "/admin/support/kb", icon: BookOpen },
       ],
     },
@@ -88,15 +125,27 @@ export function AdminSidebar({ isMobileOpen, onMobileClose, isCollapsed, onToggl
       group: "Marketing & Content",
       items: [
         { label: "Coupons & Promos", href: "/admin/marketing", icon: Tag },
-        { label: "Homepage CMS", href: "/admin/marketing/content", icon: Sliders },
-        { label: "Review Moderation", href: "/admin/marketing/reviews", icon: Star },
+        {
+          label: "Homepage CMS",
+          href: "/admin/marketing/content",
+          icon: Sliders,
+        },
+        {
+          label: "Review Moderation",
+          href: "/admin/marketing/reviews",
+          icon: Star,
+        },
       ],
     },
     {
       group: "Governance",
       items: [
         { label: "System Audit Trail", href: "/admin/audit", icon: ScrollText },
-        { label: "Store Settings & RBAC", href: "/admin/settings", icon: Settings },
+        {
+          label: "Store Settings & RBAC",
+          href: "/admin/settings",
+          icon: Settings,
+        },
       ],
     },
   ];
@@ -111,7 +160,10 @@ export function AdminSidebar({ isMobileOpen, onMobileClose, isCollapsed, onToggl
       {/* Brand & Workspace Identity */}
       <div>
         <div className="flex h-16 items-center justify-between px-4 border-b border-border">
-          <Link href="/admin" className="flex items-center gap-2.5 overflow-hidden">
+          <Link
+            href="/admin"
+            className="flex items-center gap-2.5 overflow-hidden"
+          >
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary text-white shadow-sm font-bold">
               <Cpu className="h-5 w-5" />
             </div>
@@ -132,7 +184,11 @@ export function AdminSidebar({ isMobileOpen, onMobileClose, isCollapsed, onToggl
             className="hidden md:flex h-7 w-7 items-center justify-center rounded-md border border-border text-text-muted hover:text-foreground hover:bg-surface-muted"
             title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
-            {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+            {isCollapsed ? (
+              <ChevronRight className="h-4 w-4" />
+            ) : (
+              <ChevronLeft className="h-4 w-4" />
+            )}
           </button>
           {/* Mobile: close/hamburger toggle inside sidebar header */}
           <button
@@ -148,8 +204,12 @@ export function AdminSidebar({ isMobileOpen, onMobileClose, isCollapsed, onToggl
         {/* Current Active Role Indicator */}
         {!isCollapsed && (
           <div className="mx-3 mt-3 px-3 py-1.5 rounded-lg bg-surface-muted border border-border flex items-center justify-between">
-            <span className="text-[11px] font-medium text-text-muted">Simulated Role:</span>
-            <span className="text-[11px] font-semibold text-primary">{currentRole}</span>
+            <span className="text-[11px] font-medium text-text-muted">
+              Simulated Role:
+            </span>
+            <span className="text-[11px] font-semibold text-primary">
+              {currentRole}
+            </span>
           </div>
         )}
 
@@ -176,25 +236,33 @@ export function AdminSidebar({ isMobileOpen, onMobileClose, isCollapsed, onToggl
                       active
                         ? "bg-primary-soft text-primary-strong font-semibold shadow-xs"
                         : isHomeLink
-                        ? "text-text-muted hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400"
-                        : "text-foreground hover:bg-surface-muted"
+                          ? "text-text-muted hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400"
+                          : "text-foreground hover:bg-surface-muted"
                     }`}
                   >
                     <div className="flex items-center gap-2.5 truncate">
-                      <Icon className={`h-4 w-4 shrink-0 ${
-                        active
-                          ? "text-primary"
-                          : isHomeLink
-                          ? "text-emerald-500 group-hover:text-emerald-600"
-                          : "text-text-muted group-hover:text-foreground"
-                      }`} />
-                      {!isCollapsed && <span className="truncate">{item.label}</span>}
+                      <Icon
+                        className={`h-4 w-4 shrink-0 ${
+                          active
+                            ? "text-primary"
+                            : isHomeLink
+                              ? "text-emerald-500 group-hover:text-emerald-600"
+                              : "text-text-muted group-hover:text-foreground"
+                        }`}
+                      />
+                      {!isCollapsed && (
+                        <span className="truncate">{item.label}</span>
+                      )}
                     </div>
-                    {!isCollapsed && item.badge !== undefined && item.badge > 0 && (
-                      <span className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${item.badgeColor || "bg-primary-soft text-primary"}`}>
-                        {item.badge}
-                      </span>
-                    )}
+                    {!isCollapsed &&
+                      item.badge !== undefined &&
+                      item.badge > 0 && (
+                        <span
+                          className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${item.badgeColor || "bg-primary-soft text-primary"}`}
+                        >
+                          {item.badge}
+                        </span>
+                      )}
                   </Link>
                 );
               })}
@@ -249,7 +317,7 @@ export function AdminSidebar({ isMobileOpen, onMobileClose, isCollapsed, onToggl
       {/* Desktop sidebar */}
       <aside
         className={`hidden md:block shrink-0 transition-all duration-200 ${
-          isCollapsed ? "w-16" : "w-64"
+          isCollapsed ? "w-20" : "w-64"
         }`}
       >
         {sidebarContent}
