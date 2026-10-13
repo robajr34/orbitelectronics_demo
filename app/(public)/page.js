@@ -89,9 +89,11 @@ export default function Home() {
               <div
                 key={cat.id}
                 className={`
-                  relative flex-none w-40 sm:w-44 snap-start
+                  group relative flex-none w-40 sm:w-44 snap-start
                   rounded-2xl border border-border overflow-hidden
                   ${bg} ring-1 ${ring}
+                  transition-all duration-300
+                  hover:-translate-y-2 hover:shadow-xl hover:shadow-black/10
                 `}
               >
                 {/* Top gradient strip */}
@@ -103,6 +105,7 @@ export default function Home() {
                     className={`
                       flex h-16 w-16 items-center justify-center rounded-2xl
                       bg-gradient-to-br ${gradient} shadow-lg
+                      transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3
                     `}
                   >
                     <Icon className="h-8 w-8 text-white" strokeWidth={1.5} />
@@ -110,7 +113,7 @@ export default function Home() {
 
                   {/* Category name */}
                   <div className="text-center">
-                    <p className="font-bold text-sm leading-tight text-foreground">
+                    <p className="font-bold text-sm leading-tight text-foreground group-hover:text-primary transition-colors">
                       {cat.name}
                     </p>
                     {count > 0 && (
@@ -119,6 +122,17 @@ export default function Home() {
                       </p>
                     )}
                   </div>
+
+                  {/* Coming soon label — fades in on hover */}
+                  <span
+                    className={`
+                      inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wide
+                      ${text} opacity-0 group-hover:opacity-100
+                      transition-all duration-200 -translate-y-1 group-hover:translate-y-0
+                    `}
+                  >
+                    Coming soon
+                  </span>
                 </div>
               </div>
             );
