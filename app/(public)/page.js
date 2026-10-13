@@ -1,11 +1,27 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ShieldCheck, Wrench, MapPin, Search } from "lucide-react";
+import {
+  ArrowRight, ShieldCheck, Wrench, MapPin, Search,
+  Tv2, Refrigerator, WashingMachine, Wind, Smartphone,
+  ChefHat, Music4, Package
+} from "lucide-react";
 import { products, categories } from "@/data/products";
 import { ProductCard } from "@/components/ui/ProductCard";
 
 export default function Home() {
   const featuredProducts = products.slice(0, 4);
+
+  // Map category slugs to icons, colors, and accent gradients
+  const categoryMeta = {
+    "tvs":              { Icon: Tv2,           gradient: "from-blue-600 to-blue-400",    bg: "bg-blue-50 dark:bg-blue-950/40",      ring: "ring-blue-200 dark:ring-blue-800",  text: "text-blue-600 dark:text-blue-400" },
+    "refrigerators":    { Icon: Refrigerator,   gradient: "from-cyan-600 to-cyan-400",    bg: "bg-cyan-50 dark:bg-cyan-950/40",      ring: "ring-cyan-200 dark:ring-cyan-800",  text: "text-cyan-600 dark:text-cyan-400" },
+    "washing-machines": { Icon: WashingMachine,  gradient: "from-indigo-600 to-indigo-400",bg: "bg-indigo-50 dark:bg-indigo-950/40",  ring: "ring-indigo-200",                  text: "text-indigo-600 dark:text-indigo-400" },
+    "air-conditioners": { Icon: Wind,            gradient: "from-sky-600 to-sky-400",      bg: "bg-sky-50 dark:bg-sky-950/40",        ring: "ring-sky-200 dark:ring-sky-800",    text: "text-sky-600 dark:text-sky-400" },
+    "smartphones":      { Icon: Smartphone,      gradient: "from-violet-600 to-violet-400",bg: "bg-violet-50 dark:bg-violet-950/40",  ring: "ring-violet-200",                  text: "text-violet-600 dark:text-violet-400" },
+    "kitchen":          { Icon: ChefHat,         gradient: "from-orange-500 to-amber-400", bg: "bg-orange-50 dark:bg-orange-950/40",  ring: "ring-orange-200",                  text: "text-orange-500 dark:text-orange-400" },
+    "audio":            { Icon: Music4,           gradient: "from-rose-600 to-pink-400",    bg: "bg-rose-50 dark:bg-rose-950/40",      ring: "ring-rose-200 dark:ring-rose-800",  text: "text-rose-600 dark:text-rose-400" },
+    "small-appliances": { Icon: Package,          gradient: "from-emerald-600 to-teal-400", bg: "bg-emerald-50 dark:bg-emerald-950/40",ring: "ring-emerald-200",                 text: "text-emerald-600 dark:text-emerald-400" },
+  };
 
   return (
     <div className="flex flex-col gap-16 pb-16">
@@ -39,21 +55,103 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Categories */}
+      {/* ── Shop by Category ── */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
-        <h2 className="text-3xl font-bold tracking-tight text-foreground mb-8">Shop by Category</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {categories.map((category) => (
-            <Link key={category.id} href={`/categories/${category.slug}`} className="group relative rounded-xl bg-surface-muted p-6 transition-all hover:shadow-md hover:bg-surface-strong flex flex-col items-center justify-center text-center aspect-square">
-              {/* Fake image placeholder since we don't have real images yet */}
-              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
-                <span className="text-primary font-bold text-xl">{category.name[0]}</span>
-              </div>
-              <h3 className="font-semibold text-foreground text-sm">{category.name}</h3>
-            </Link>
-          ))}
+        <div className="flex items-end justify-between mb-8">
+          <div>
+            <p className="text-xs font-bold tracking-widest uppercase text-primary mb-1">Browse Range</p>
+            <h2 className="text-3xl font-extrabold tracking-tight text-foreground">Shop by Category</h2>
+          </div>
+          <Link
+            href="/products"
+            className="hidden sm:flex items-center gap-1 text-sm font-semibold text-primary hover:underline underline-offset-4"
+          >
+            All products <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        {/* Scrollable row of category cards */}
+        <div className="flex gap-4 overflow-x-auto pb-3 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory scroll-smooth">
+          {categories.map((cat) => {
+            const meta = categoryMeta[cat.slug] || {
+              Icon: Package,
+              gradient: "from-slate-600 to-slate-400",
+              bg: "bg-slate-50 dark:bg-slate-900/40",
+              ring: "ring-slate-200",
+              text: "text-slate-600",
+            };
+            const { Icon, gradient, bg, ring, text } = meta;
+            const count = products.filter(
+              (p) => p.categoryId === cat.id || p.categoryId === cat.slug
+            ).length;
+
+            return (
+              <Link
+                key={cat.id}
+                href={`/categories/${cat.slug}`}
+                className={`
+                  group relative flex-none w-40 sm:w-44 snap-start
+                  rounded-2xl border border-border overflow-hidden
+                  ${bg} ring-1 ${ring}
+                  transition-all duration-300
+                  hover:-translate-y-2 hover:shadow-xl hover:shadow-black/10
+                  focus:outline-none focus-visible:ring-2 focus-visible:ring-primary
+                `}
+              >
+                {/* Top gradient strip */}
+                <div className={`h-1.5 w-full bg-gradient-to-r ${gradient}`} />
+
+                <div className="flex flex-col items-center p-5 pt-4 gap-3">
+                  {/* Icon container */}
+                  <div
+                    className={`
+                      flex h-16 w-16 items-center justify-center rounded-2xl
+                      bg-gradient-to-br ${gradient} shadow-lg
+                      transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3
+                    `}
+                  >
+                    <Icon className="h-8 w-8 text-white" strokeWidth={1.5} />
+                  </div>
+
+                  {/* Category name */}
+                  <div className="text-center">
+                    <p className="font-bold text-sm leading-tight text-foreground group-hover:text-primary transition-colors">
+                      {cat.name}
+                    </p>
+                    {count > 0 && (
+                      <p className={`mt-0.5 text-[11px] font-semibold ${text}`}>
+                        {count} product{count !== 1 ? "s" : ""}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Shop arrow */}
+                  <span
+                    className={`
+                      inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wide
+                      ${text} opacity-0 group-hover:opacity-100
+                      transition-all duration-200 -translate-y-1 group-hover:translate-y-0
+                    `}
+                  >
+                    Shop now <ArrowRight className="h-3 w-3" />
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Mobile "view all" */}
+        <div className="mt-5 flex sm:hidden justify-center">
+          <Link
+            href="/products"
+            className="flex items-center gap-1.5 rounded-full border border-border px-5 py-2 text-sm font-semibold text-text-muted hover:bg-surface-muted transition-colors"
+          >
+            View all products <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </section>
+
 
       {/* Promotional Banner */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">

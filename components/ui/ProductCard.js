@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Heart, Star } from "lucide-react";
+import { Heart, Star, ShoppingCart } from "lucide-react";
 
 export function ProductCard({ product }) {
   // Determine badge
@@ -39,7 +39,7 @@ export function ProductCard({ product }) {
         <button
           type="button"
           aria-label="Add to wishlist"
-          className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-surface/80 text-text-muted shadow-sm backdrop-blur-md transition-colors hover:bg-surface hover:text-danger focus:outline-none focus:ring-2 focus:ring-primary"
+          className="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-surface border border-border text-text-muted shadow-md transition-all duration-200 hover:bg-danger hover:text-white hover:border-danger hover:scale-110 focus:outline-none focus:ring-2 focus:ring-danger"
         >
           <Heart className="h-4 w-4" />
         </button>
@@ -92,10 +92,24 @@ export function ProductCard({ product }) {
           </div>
           
           {/* CTA */}
-          <div className="relative z-10 mt-2">
-            <Button className="w-full font-medium" variant="secondary" asChild>
+          <div className="relative z-10 mt-2 flex gap-2">
+            <Button
+              className="flex-1 font-semibold shadow-sm"
+              variant="default"
+              asChild
+            >
               <Link href={`/products/${product.id}`}>
-                View Product
+                <ShoppingCart className="mr-1.5 h-3.5 w-3.5" />
+                Add to Cart
+              </Link>
+            </Button>
+            <Button
+              className="shrink-0 border-2 border-primary text-primary bg-transparent hover:bg-primary hover:text-white font-semibold px-3"
+              variant="outline"
+              asChild
+            >
+              <Link href={`/products/${product.id}`} aria-label={`View details for ${product.name}`}>
+                Details
               </Link>
             </Button>
           </div>

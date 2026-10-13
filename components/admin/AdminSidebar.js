@@ -25,6 +25,8 @@ import {
   ExternalLink,
   RotateCw,
   Cpu,
+  Home,
+  Menu,
 } from "lucide-react";
 import { useAdminStore } from "@/lib/adminStore";
 import { ConfirmationModal } from "./ConfirmationModal";
@@ -48,6 +50,7 @@ export function AdminSidebar({ isMobileOpen, onMobileClose, isCollapsed, onToggl
     {
       group: "Overview",
       items: [
+        { label: "Home", href: "/", icon: Home },
         { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
       ],
     },
@@ -123,12 +126,22 @@ export function AdminSidebar({ isMobileOpen, onMobileClose, isCollapsed, onToggl
               </div>
             )}
           </Link>
+          {/* Desktop: collapse toggle */}
           <button
             onClick={onToggleCollapse}
             className="hidden md:flex h-7 w-7 items-center justify-center rounded-md border border-border text-text-muted hover:text-foreground hover:bg-surface-muted"
             title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+          </button>
+          {/* Mobile: close/hamburger toggle inside sidebar header */}
+          <button
+            onClick={onMobileClose}
+            className="flex md:hidden h-7 w-7 items-center justify-center rounded-md border border-border text-text-muted hover:text-foreground hover:bg-surface-muted"
+            title="Close navigation"
+            aria-label="Close navigation menu"
+          >
+            <Menu className="h-4 w-4" />
           </button>
         </div>
 
@@ -150,7 +163,8 @@ export function AdminSidebar({ isMobileOpen, onMobileClose, isCollapsed, onToggl
                 </div>
               )}
               {grp.items.map((item) => {
-                const active = isActive(item.href);
+                const isHomeLink = item.href === "/";
+                const active = !isHomeLink && isActive(item.href);
                 const Icon = item.icon;
                 return (
                   <Link
@@ -161,11 +175,19 @@ export function AdminSidebar({ isMobileOpen, onMobileClose, isCollapsed, onToggl
                     className={`group flex items-center justify-between rounded-lg px-2.5 py-2 text-xs font-medium transition-colors ${
                       active
                         ? "bg-primary-soft text-primary-strong font-semibold shadow-xs"
+                        : isHomeLink
+                        ? "text-text-muted hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400"
                         : "text-foreground hover:bg-surface-muted"
                     }`}
                   >
                     <div className="flex items-center gap-2.5 truncate">
-                      <Icon className={`h-4 w-4 shrink-0 ${active ? "text-primary" : "text-text-muted group-hover:text-foreground"}`} />
+                      <Icon className={`h-4 w-4 shrink-0 ${
+                        active
+                          ? "text-primary"
+                          : isHomeLink
+                          ? "text-emerald-500 group-hover:text-emerald-600"
+                          : "text-text-muted group-hover:text-foreground"
+                      }`} />
                       {!isCollapsed && <span className="truncate">{item.label}</span>}
                     </div>
                     {!isCollapsed && item.badge !== undefined && item.badge > 0 && (
