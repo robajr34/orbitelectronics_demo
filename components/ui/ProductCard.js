@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Heart, Star, ShoppingCart } from "lucide-react";
+import { Heart, Star, MapPin } from "lucide-react";
 
 export function ProductCard({ product }) {
   // Determine badge
@@ -94,13 +94,13 @@ export function ProductCard({ product }) {
           {/* CTA */}
           <div className="relative z-10 mt-2 flex gap-2">
             <Button
-              className="flex-1 font-semibold shadow-sm"
-              variant="default"
+              className="flex-1 border border-blue-600 bg-transparent text-black dark:text-white hover:bg-blue-600 hover:text-white hover:border-blue-600 font-semibold shadow-none transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+              variant="ghost"
               asChild
             >
-              <Link href={`/products/${product.id}`}>
-                <ShoppingCart className="mr-1.5 h-3.5 w-3.5" />
-                Add to Cart
+              <Link href="/stores#store-location" aria-label={`Find store to buy ${product.name}`}>
+                <MapPin className="mr-1.5 h-3.5 w-3.5" />
+                Where to Buy
               </Link>
             </Button>
             <Button

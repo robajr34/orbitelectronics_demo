@@ -113,6 +113,16 @@ export function Footer() {
                   </a>
                 ))}
               </div>
+
+              {/* Call Now CTA */}
+              <a
+                href="tel:+251111567890"
+                aria-label="Call Orbit Electronics now"
+                className="mt-4 inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-white shadow-md transition-all duration-200 hover:bg-primary-strong hover:shadow-lg hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              >
+                <FontAwesomeIcon icon={faPhone} className="h-3.5 w-3.5" />
+                Call Now
+              </a>
             </div>
           </div>
         </div>

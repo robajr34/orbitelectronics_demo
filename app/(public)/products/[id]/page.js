@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { products } from "@/data/products";
 import { Button } from "@/components/ui/button";
-import { Check, Info, ShieldCheck, MapPin, Share2, Heart, Scale } from "lucide-react";
+import { Check, Info, ShieldCheck, MapPin, Share2, Heart, Scale, Phone } from "lucide-react";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
@@ -83,8 +83,22 @@ export default async function ProductPage({ params }) {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
-            <Button size="lg" className="flex-1 text-base h-14">Buy Now</Button>
-            <Button size="lg" variant="outline" className="flex-1 text-base h-14">Request a Quote</Button>
+            <Button
+              size="lg"
+              className="flex-1 text-base h-14 border-2 border-blue-600 bg-transparent text-blue-600 hover:bg-blue-600 hover:text-white transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+              variant="ghost"
+              asChild
+            >
+              <Link href="/stores#store-location">
+                <MapPin className="mr-2 h-5 w-5" />
+                Where to Buy
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline" className="flex-1 text-base h-14" asChild>
+              <Link href="/stores">
+                Find Our Store
+              </Link>
+            </Button>
           </div>
 
           <div className="flex items-center gap-6 pt-6 border-t border-border">
